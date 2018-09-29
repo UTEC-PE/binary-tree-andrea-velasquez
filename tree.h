@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include "node.h"
+#include "iterator.h"
+
 
 using namespace std;
 template <class T>
