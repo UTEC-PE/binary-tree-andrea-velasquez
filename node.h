@@ -1,15 +1,19 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include <string>
-
+template <typename T>
 struct Node {
-    int data;
-    Node* left;
-    Node* right;
+    T data;
+    Node<T>* left;
+    Node<T>* right;
 
-    Node(int data) : data(data), left(nullptr), right(nullptr){};
-    void killSelf();
+    Node(T data) : data(data), left(nullptr), right(nullptr){};
+    void killSelf(){
+      if (left) left->killSelf();
+      if (right) right->killSelf();
+      delete this;
+    };
 };
+
 
 #endif
