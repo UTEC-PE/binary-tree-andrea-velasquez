@@ -12,7 +12,7 @@ class Tree{
 private:
   Node<T>* root;
   int nodes=0;
-  bool insert( Node<T>* currentroot, T element);
+  bool find(Node<T>** &currentroot, T element);
   void print_with_method(Node<T>* currentroot, int method);
 public:
   Tree() : root(nullptr){};
@@ -42,16 +42,16 @@ public:
 
 // ---------------
 template <typename T>
-bool Tree<T>::insert(Node<T>* currentroot, T element){
-  if (currentroot->data == element) { currentroot = new Node<T>(element); return false; }
+bool Tree<T>::find(Node<T>** &currentroot, T element){
+  if ((*currentroot)->data == element) return true;
 
-   if (element<currentroot->data){
-     if (currentroot->left) return insert(currentroot->left, element);
-     else {  currentroot->left = new Node<T>(element); return true; }
+   if (element<(*currentroot)->data){
+     if ((*currentroot)->left) { currentroot=&(*currentroot)->left; return find(currentroot, element); }
+     else { currentroot=&(*currentroot)->left; return false; }
    }
    else{
-    if (currentroot->right) return insert(currentroot->right, element);
-    else { currentroot->right = new Node<T>(element); return true; }
+    if ((*currentroot)->right) { currentroot=&(*currentroot)->right; return find(currentroot, element); }
+    else { currentroot=&(*currentroot)->right; return false; }
    }
 }
 
@@ -59,9 +59,13 @@ template <typename T>
 bool Tree<T>::insert(T element){
   //empty
   if (!root){ root=new Node<T>(element); ++nodes; return true; }
-  bool ans = insert(root, element);
-  if (ans) ++nodes;
-  return ans;
+  Node<T>** pointer = &root;
+  if (!find(pointer, element)){
+    *pointer = new Node<T>(element);
+    ++nodes;
+    return true;
+  }
+  return false;
 }
 
 
