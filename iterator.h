@@ -13,6 +13,7 @@ private:
   Node<T>* previous;
 
 public:
+  Iterator(): current(nullptr), previous(nullptr){}
   Iterator(Node<T>* root): current(root), previous(nullptr){
     thestack.push(current);
     while (current->left) {
@@ -62,6 +63,10 @@ public:
   T operator*(){
     if (!current) throw "Can't get data of nullptr";
     return current->data;
+  };
+
+  bool operator!=(Iterator<T> cmp){
+    return current!=cmp.current;
   };
 };
 

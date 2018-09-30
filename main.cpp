@@ -22,9 +22,8 @@ int main(int argc, char *argv[]){
 
   auto it = binarytree.begin();
   cout<<endl;
-  for (int i=0; i<binarytree.size(); i++){
+  for (; it!=binarytree.end(); ++it){
     cout << *it << " ";
-    ++it;
   }
 
   return EXIT_SUCCESS;

@@ -27,7 +27,7 @@ public:
     return it;
   };
   Iterator<T> end(){
-    Iterator<T> it(nullptr);
+    Iterator<T> it;
     return it;
   };
 
