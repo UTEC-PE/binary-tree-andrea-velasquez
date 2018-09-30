@@ -1,0 +1,5 @@
+cmake-build-debug/
+.idea/
+
+test.cpp
+print.cpp
