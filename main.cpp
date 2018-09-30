@@ -20,6 +20,12 @@ int main(int argc, char *argv[]){
   cout << "\nPost order: ";
   binarytree.print_with_method(2);
 
+  auto it = binarytree.begin();
+  cout<<endl;
+  for (int i=0; i<binarytree.size(); i++){
+    cout << *it << " ";
+    ++it;
+  }
 
   return EXIT_SUCCESS;
 }

@@ -11,6 +11,7 @@ template <class T>
 class Tree{
 private:
   Node<T>* root;
+  int nodes=0;
   bool insert( Node<T>* currentroot, T element);
   void print_with_method(Node<T>* currentroot, int method);
 public:
@@ -18,9 +19,22 @@ public:
   bool insert(T element);
   //bool remove(int element);
   void print_with_method(int method); //0 pre order, 1 in order, 2 post order
-  // Iterator<T> begin(){ Iterator<T> it(root); return it; };
-  // Iterator<T> end(){ Iterator<T> it(nullptr); return it; };
+  int size() { return nodes; }
+
   void remove(int method);
+  Iterator<T> begin(){
+    Iterator<T> it(root);
+    return it;
+  };
+  Iterator<T> end(){
+    Iterator<T> it(nullptr);
+    return it;
+  };
+
+  ~Tree(){
+    if (root) root->killSelf();
+    root=nullptr;
+  }
 
 
   void print(){ print2D(root);};
@@ -44,8 +58,10 @@ bool Tree<T>::insert(Node<T>* currentroot, T element){
 template <typename T>
 bool Tree<T>::insert(T element){
   //empty
-  if (!root){ root=new Node<T>(element); return true; }
-  return insert(root, element);
+  if (!root){ root=new Node<T>(element); ++nodes; return true; }
+  bool ans = insert(root, element);
+  if (ans) ++nodes;
+  return ans;
 }
 
 
