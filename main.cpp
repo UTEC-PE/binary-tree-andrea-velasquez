@@ -34,6 +34,7 @@ int main(int argc, char *argv[]){
 
   cout << "\nSize after remove: " <<binarytree.weight();
 
+  cout << "\n\nHeight: " <<binarytree.getHeight();
   cout << "\n\nIterator in order: ";
   for (auto it = binarytree.begin(); it!=binarytree.end(); ++it){
     cout << *it << " ";

@@ -32,7 +32,7 @@ public:
       do{
         previous = thestack.top();
         thestack.pop();
-        if (thestack.empty()) {cout<<"Is empty\n"; current=nullptr; return *this;}
+        if (thestack.empty()) {current=nullptr; return *this;}
         current = thestack.top();
       }
       while (previous==current->right);

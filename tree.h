@@ -12,31 +12,25 @@ class Tree{
 private:
   Node<T>* root;
   int nodes=0;
+  //recursive functions
   bool find(Node<T>** &currentroot, T element);
   void print_with_method(Node<T>* currentroot, int method);
+  int getHeight(Node<T>* currentroot);
 public:
   Tree() : root(nullptr){};
   bool insert(T element);
   bool remove(T element, Node<T>** bypointer=nullptr);
   void print_with_method(int method); //0 pre order, 1 in order, 2 post order
   int weight() { return nodes; }
+  int getHeight();
 
-  Iterator<T> begin(){
-    Iterator<T> it(root);
-    return it;
-  };
-  Iterator<T> end(){
-    Iterator<T> it;
-    return it;
-  };
+  Iterator<T> begin(){ Iterator<T> it(root); return it; };
+  Iterator<T> end(){ Iterator<T> it; return it; };
 
-  ~Tree(){
-    if (root) root->killSelf();
-    root=nullptr;
-  }
+  ~Tree(){ if (root) root->killSelf(); root=nullptr; };
 
 
-  void print(){ print2D(root);};
+  void print(){ print2D(root); };
 };
 
 // ---------------
@@ -54,6 +48,7 @@ bool Tree<T>::find(Node<T>** &currentroot, T element){
    }
 }
 
+// ---------------
 template <typename T>
 bool Tree<T>::insert(T element){
   if (!root){ root=new Node<T>(element); ++nodes; return true; } //empty
@@ -117,6 +112,19 @@ bool Tree<T>::remove(T element, Node<T>** bypointer){
   *pointer = nullptr;
   pointer = nullptr;
   return true;
+}
+
+// ---------------
+template <typename T>
+int Tree<T>::getHeight(Node<T>* currentroot){
+  if (!currentroot) return 0;
+  return max(getHeight(currentroot->left), getHeight(currentroot->right))+1;
+}
+
+template <typename T>
+int Tree<T>::getHeight(){
+  if (!root) return 0;
+  return getHeight(root);
 }
 
 #endif
