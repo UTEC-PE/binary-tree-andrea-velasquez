@@ -7,7 +7,7 @@
 
 
 using namespace std;
-template <class T>
+template <typename T>
 class Tree{
 private:
   Node<T>* root;
@@ -17,11 +17,10 @@ private:
 public:
   Tree() : root(nullptr){};
   bool insert(T element);
-  //bool remove(int element);
+  bool remove(T element, Node<T>** bypointer=nullptr);
   void print_with_method(int method); //0 pre order, 1 in order, 2 post order
-  int size() { return nodes; }
+  int weight() { return nodes; }
 
-  void remove(int method);
   Iterator<T> begin(){
     Iterator<T> it(root);
     return it;
@@ -57,8 +56,7 @@ bool Tree<T>::find(Node<T>** &currentroot, T element){
 
 template <typename T>
 bool Tree<T>::insert(T element){
-  //empty
-  if (!root){ root=new Node<T>(element); ++nodes; return true; }
+  if (!root){ root=new Node<T>(element); ++nodes; return true; } //empty
   Node<T>** pointer = &root;
   if (!find(pointer, element)){
     *pointer = new Node<T>(element);
@@ -82,6 +80,43 @@ void Tree<T>::print_with_method(Node<T>* currentroot, int method){
 template <typename T>
 void Tree<T>::print_with_method(int method){
   print_with_method(root, method);
+}
+
+// ---------------
+template <typename T>
+bool Tree<T>::remove(T element, Node<T>** bypointer){
+  if (!root) return false; //empty
+  Node<T>** pointer = &root;
+  if (!bypointer && !find(pointer, element)) return false;
+  if (bypointer) pointer = bypointer;
+  --nodes;
+
+  //one child
+  if (!(*pointer)->right != !(*pointer)->left){
+    delete *pointer;
+    if ((*pointer)->right) *pointer = (*pointer)->right;
+    else *pointer = (*pointer)->left;
+    pointer = nullptr;
+    return true;
+  }
+
+  // zero or two children
+  Node<T>* prevpointer = *pointer;
+  if ((*pointer)->right){
+    pointer = &(*pointer)->right;
+    while ((*pointer)->left) pointer = &(*pointer)->left;
+  }
+  // reemplazar nodo con inmediato mayor
+  // T temp_to_swap = prevpointer->data;
+  prevpointer->data = (*pointer)->data;
+  // (*pointer)->data = temp_to_swap*100;
+  if (pointer==&(prevpointer)->right) {
+    return this->remove(0, pointer);
+  }
+  delete *pointer;
+  *pointer = nullptr;
+  pointer = nullptr;
+  return true;
 }
 
 #endif
